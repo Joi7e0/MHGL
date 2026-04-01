@@ -7,7 +7,7 @@ import { state, dom } from './core/state.js';
 import { audio } from './utils/audio.js';
 import { resizeCanvas, validateInputs, hideAllScreens } from './ui/ui.js';
 import { renderLeaderboard, clearLbFunc } from './ui/leaderboard.js';
-import { init, killGameLoop, triggerGameOver } from './core/game.js';
+import { init, killGameLoop, triggerGameOver, togglePause } from './core/game.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', resizeCanvas);
@@ -120,6 +120,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (e.target === dom.leaderboardModal) {
             dom.leaderboardModal.classList.add('hidden');
+        }
+    });
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            togglePause();
         }
     });
 

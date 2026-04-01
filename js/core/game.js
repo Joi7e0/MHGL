@@ -20,6 +20,7 @@ export function killGameLoop() {
     state.balls.length = 0;
     state.targetMouseX = null;
     state.targetMouseY = null;
+    state.isPaused = false;
 }
 
 export function triggerGameOver(isWin = false) {
@@ -102,8 +103,35 @@ export function spawnBallsForLevel() {
     }
 }
 
-export const gameLoop = () => {
+export function togglePause() {
     if (!state.isGameRunning) return;
+    
+    state.isPaused = !state.isPaused;
+    
+    if (state.isPaused) {
+        audio.bgMusic.pause();
+        if (state.animationId) {
+            cancelAnimationFrame(state.animationId);
+            state.animationId = null;
+        }
+        
+        // Draw pause overlay
+        dom.ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+        dom.ctx.fillRect(0, 0, dom.canvas.width, dom.canvas.height);
+        
+        dom.ctx.fillStyle = "white";
+        dom.ctx.font = "bold 60px sans-serif";
+        dom.ctx.textAlign = "center";
+        dom.ctx.textBaseline = "middle";
+        dom.ctx.fillText("PAUSED", dom.canvas.width / 2, dom.canvas.height / 2);
+    } else {
+        audio.bgMusic.play().catch(()=>{});
+        gameLoop();
+    }
+}
+
+export const gameLoop = () => {
+    if (!state.isGameRunning || state.isPaused) return;
 
     dom.ctx.clearRect(0, 0, dom.canvas.width, dom.canvas.height);
 
@@ -234,6 +262,7 @@ export const init = () => {
     spawnBallsForLevel();
 
     state.isGameRunning = true;
+    state.isPaused = false;
     dom.resultTitle.style.color = 'var(--text-main)';
     dom.playerSprite.classList.remove('hidden');
     dom.playerSprite.src = "photo/main-smile.png";

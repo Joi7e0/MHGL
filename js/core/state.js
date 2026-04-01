@@ -12,7 +12,8 @@ export const state = {
     balls: [],
     targetMouseX: null,
     targetMouseY: null,
-    animationId: null
+    animationId: null,
+    isPaused: false
 };
 
 export const dom = {
