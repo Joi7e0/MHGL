@@ -1,0 +1,435 @@
+:root {
+    --bg-color: #f4f7f6;
+    --panel-bg: rgba(20, 25, 30, 0.85);
+    --border-color: #3b4252;
+    --accent-glow: rgba(255, 165, 2, 0.35);
+    --primary-color: #ffa502;
+    --danger-color: #ff3366;
+    --danger-glow: rgba(255, 51, 102, 0.35);
+    --text-main: #e5e9f0;
+    --text-muted: #81a1c1;
+    --font-heading: 'Orbitron', sans-serif;
+    --font-body: 'Rajdhani', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: url('photo/main_bg.png') center/cover fixed;
+    color: var(--text-main);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-btn {
+    width: auto !important;
+    margin: 0 !important;
+    padding: 5px !important;
+    border: none !important;
+    background: transparent !important;
+    font-size: 28px !important;
+    box-shadow: none !important;
+    z-index: 10;
+}
+
+.icon-btn:hover {
+    transform: scale(1.1);
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 20, 30, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.app-container {
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.screen {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 165, 2, 0.05);
+    animation: fadeIn 0.4s ease-out;
+    backdrop-filter: blur(10px);
+    position: relative;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#game-screen {
+    max-width: 90vw;
+}
+
+h1 {
+    font-family: var(--font-heading);
+    color: var(--primary-color);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 28px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.row {
+    display: flex;
+    gap: 15px;
+}
+
+.row .form-group {
+    flex: 1;
+}
+
+label {
+    margin-bottom: 8px;
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+input {
+    background: #1b222c;
+    border: 1px solid #4c566a;
+    border-radius: 8px;
+    color: var(--text-main);
+    padding: 12px 15px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 12px var(--accent-glow);
+}
+
+input[type="color"],
+button,
+label {
+    cursor: pointer;
+}
+
+button {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    color: var(--primary-color);
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 700;
+    padding: 16px 20px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 165, 2, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+button:hover,
+button:focus {
+    background: var(--primary-color);
+    color: #0f141e;
+    box-shadow: 0 6px 15px var(--accent-glow);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+button.btn-danger {
+    border-color: var(--danger-color);
+    color: var(--danger-color);
+    box-shadow: 0 4px 10px rgba(255, 51, 102, 0.1);
+    margin-top: 20px;
+}
+
+button.btn-danger:hover,
+button.btn-danger:focus {
+    background: var(--danger-color);
+    color: #fff;
+    box-shadow: 0 6px 15px var(--danger-glow);
+}
+
+.hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    font-family: var(--font-heading);
+    font-size: 18px;
+    color: var(--text-main);
+    background: #1b222c;
+    padding: 15px 25px;
+    border-radius: 10px;
+    border: 1px solid #3b4252;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+#hud-score {
+    color: var(--primary-color);
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.hearts-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.heart-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.error-text {
+    background: rgba(255, 51, 102, 0.1);
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* ============================
+    Agar.io & Slime Canvas Area
+============================ */
+#canvas-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    /* Prevent extra overflow */
+    border-radius: 12px;
+}
+
+#gameCanvas {
+    /* Фонове зображення (bg.png) тепер позаду всіх ігрових подій */
+    background: #10151f url('photo/bg.png') repeat center/cover;
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(255, 165, 2, 0.1);
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    cursor: crosshair;
+    /* UX для управління мишкою */
+}
+
+/* DOM-оверлей для гіфки Слайма, щоб анімація не замерзала! */
+#player-sprite {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    pointer-events: none;
+    /* мишка ігнорує гіфку і клікає сам канвас */
+    z-index: 5;
+    transform: translate(-50%, -50%);
+    /* Центруємо його координати */
+    animation: bounceHero 0.4s infinite alternate cubic-bezier(0.2, 0.8, 0.4, 1);
+}
+
+@keyframes bounceHero {
+    0% {
+        transform: translate(-50%, -50%) scale(1.05, 0.95);
+    }
+
+    100% {
+        transform: translate(-50%, calc(-50% - 25px)) scale(0.95, 1.05);
+    }
+}
+
+/* ============================ */
+
+#countdown-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-heading);
+    font-size: 120px;
+    color: var(--primary-color);
+    text-shadow: 0 0 20px var(--accent-glow);
+    z-index: 10;
+    pointer-events: none;
+    animation: popAnim 0.8s ease-out infinite;
+}
+
+@keyframes popAnim {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+    }
+}
+
+.shake {
+    animation: shakeAnim 0.3s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shakeAnim {
+
+    10%,
+    90% {
+        transform: translate3d(-3px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(5px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-8px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(8px, 0, 0);
+    }
+}
+
+#leaderboard-list {
+    list-style: none;
+    margin: 25px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.leaderboard-item {
+    background: #1b222c;
+    border: 1px solid #3b4252;
+    padding: 15px 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 18px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.leaderboard-item:hover {
+    transform: translateX(5px);
+    border-color: var(--primary-color);
+    background: #252e3b;
+}
+
+.leaderboard-item .rank {
+    font-family: var(--font-heading);
+    color: var(--text-muted);
+    font-weight: 700;
+    width: 30px;
+}
+
+.leaderboard-item .player {
+    font-weight: 700;
+    color: var(--primary-color);
+    flex-grow: 1;
+}
+
+.leaderboard-item .level {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin-right: 20px;
+}
+
+.leaderboard-item .score {
+    font-family: var(--font-heading);
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+@media (max-width: 600px) {
+    .hud {
+        flex-direction: column;
+        gap: 10px;
+        font-size: 16px;
+    }
+
+    .leaderboard-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .leaderboard-item .level {
+        margin: 0;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 0;
+    }
+}

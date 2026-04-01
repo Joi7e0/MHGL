@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monster Hunter: Genetic Lab</title>
+    <!-- Підключаємо сучасні шрифти для Arcade / Cyberpunk стилю -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Підключення зовнішнього файлу стилів -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Вікно 1: Стартове меню         -->
+        <section id="start-screen" class="screen">
+            <div id="error-message" class="error-text hidden"></div>
+
+            <button id="settings-btn" class="icon-btn" title="Налаштування" type="button" style="position: absolute; top: 15px; left: 15px;">⚙️</button>
+            <button id="leaderboard-btn" class="icon-btn" title="Таблиця Рекордів" type="button" style="position: absolute; top: 15px; right: 15px;">🏆</button>
+            
+            <form id="config-form">
+                <div class="form-group" style="text-align: center; margin-top: 10px;">
+                    <label for="player-name" style="font-size: 1.2rem;">Ім'я гравця</label>
+                    <input type="text" id="player-name" placeholder="Введіть ваше ім'я" required style="text-align: center; width: 80%; margin: 10px auto; display: block; background: rgba(20, 25, 30, 0.6); backdrop-filter: blur(5px);">
+                </div>
+
+                <button type="button" id="start-button" style="margin-top: 25px; padding: 18px 40px; font-size: 20px; background: rgba(255, 165, 2, 0.2); border: 2px solid var(--primary-color); backdrop-filter: blur(5px);">Почати Експеримент</button>
+            </form>
+        </section>
+
+            <!-- Модальне вікно ТАБЛИЦІ ЛІДЕРІВ -->
+            <div id="leaderboard-modal" class="modal hidden">
+                <div class="modal-content screen">
+                    <button id="close-leaderboard" class="icon-btn" style="position: absolute; top: 15px; right: 15px;">&times;</button>
+                    <h2 style="margin-bottom: 20px; color: var(--primary-color); text-align: center; font-size: 1.5rem; text-shadow: 0 0 10px rgba(255, 165, 2, 0.4);">Кращі Лаборанти</h2>
+                    <ul id="main-leaderboard-list"></ul>
+                    <button type="button" id="clear-leaderboard-main" class="btn-danger" style="margin-top: 10px; padding: 8px 16px; font-size: 12px; width: auto; margin-left: auto; margin-right: auto; display: block; background: rgba(255, 51, 102, 0.2); border: 1px solid var(--danger-color);">Очистити</button>
+                </div>
+            </div>
+
+            <!-- Модальне вікно налаштувань -->
+            <div id="settings-modal" class="modal hidden">
+                <div class="modal-content screen" style="max-height: 80vh; overflow-y: auto;">
+                    <button id="close-settings" class="icon-btn" style="position: absolute; top: 15px; right: 15px;">&times;</button>
+                    <h2 style="margin-bottom: 20px; color: var(--primary-color);">Налаштування</h2>
+                    
+                    <div class="form-group">
+                        <label for="win-balls-count">Кількість кульок для перемоги</label>
+                        <input type="number" id="win-balls-count" value="10" min="1" max="500" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="max-ball-speed">Максимальна швидкість ворогів (0.1 - 1.0)</label>
+                        <input type="number" id="max-ball-speed" value="0.5" min="0.1" max="1.0" step="0.1" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="min-ball-size">Мін. розмір ворога</label>
+                            <input type="number" id="min-ball-size" value="20" min="20" max="75" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="max-ball-size">Макс. розмір ворога</label>
+                            <input type="number" id="max-ball-size" value="75" min="20" max="75" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="player-size">Початковий розмір Слайма (20-75)</label>
+                        <input type="number" id="player-size" value="50" min="20" max="75" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="max-mutations">Кількіть мутацій (1-100)</label>
+                        <input type="number" id="max-mutations" value="5" min="1" max="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="target-color">Цільовий колір</label>
+                        <select id="target-color" style="background: #1b222c; border: 1px solid #4c566a; border-radius: 8px; color: var(--text-main); padding: 12px 15px; font-family: var(--font-body); font-size: 16px; font-weight: 600; width: 100%;">
+                            <option value="#ff4757">Червоний</option>
+                            <option value="#2ed573">Зелений</option>
+                            <option value="#eccc68">Жовтий</option>
+                            <option value="#00a8ff">Синій</option>
+                            <option value="#9b59b6">Фіолетовий</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="player-lives">Кількість життів (1-5,God Mode)</label>
+                        <input type="number" id="player-lives" value="3" min="1" max="6" required>
+                    </div>
+                </div>
+            </div>
+
+
+        <!-- ============================== -->
+        <!-- Вікно 2: Ігрове поле           -->
+        <!-- ============================== -->
+        <section id="game-screen" class="screen hidden" style="position: relative;">
+            <div class="hud" id="game-hud">
+                <span id="hud-level">Серія: 1</span>
+                <span id="hud-score">Маса: 0</span>
+                <div id="hud-lives" class="hearts-container"></div>
+            </div>
+
+            <div id="canvas-wrapper">
+                <canvas id="gameCanvas"></canvas>
+                <!-- Візуальний відлік перед стартом -->
+                <div id="countdown-overlay" class="hidden">3</div>
+
+                <!-- Анімований герой (DOM-оверлей) -->
+                <img id="player-sprite" src="photo/main-smile.png" alt="Hero Slime" class="hidden">
+            </div>
+
+            <button type="button" id="stop-button" class="btn-danger">Евакуюватись / Здатися</button>
+        </section>
+
+
+        <!-- ============================== -->
+        <!-- Вікно 3: Таблиця лідерів       -->
+        <!-- ============================== -->
+        <section id="result-screen" class="screen hidden">
+            <h1 id="result-title">Кінець Мутації</h1>
+            <img id="win-image" src="photo/win.png" alt="Victory" class="hidden" style="max-width: 250px; margin: 15px auto; display: block;">
+
+            <ul id="leaderboard-list"></ul>
+
+            <button type="button" id="restart-button">Спробувати Знову</button>
+            <button type="button" id="clear-leaderboard-button" class="btn-danger" style="margin-top: 10px;">Очистити Рекорди</button>
+        </section>
+
+    </div>
+
+    <!-- Підключення основного файлу JavaScript як ES модулів -->
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
